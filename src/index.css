@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none;
+}
+
+:root {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #e0e0e0;
+  background-color: #0a0a14;
+
+  --bnb-gold: #F0B90B;
+  --bnb-gold-dim: rgba(240, 185, 11, 0.15);
+  --bg-primary: #0a0a14;
+  --bg-secondary: #12122a;
+  --bg-card: #141428;
+  --text-primary: #e0e0e0;
+  --text-muted: #8888aa;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    linear-gradient(rgba(240, 185, 11, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 185, 11, 0.12) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+/* Soft vignette on grid edges */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-primary) 90%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Liquid light canvas */
+.liquid-light-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Custom cursor ─── */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--bnb-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.08s ease-out, width 0.15s, height 0.15s, border-color 0.15s;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: var(--bnb-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor.hovering {
+  width: 40px;
+  height: 40px;
+  border-color: #ffffff;
+}
+
+/* Restore default cursor for inputs */
+input, textarea, select {
+  cursor: text !important;
+}
+
+button, a, [role="button"] {
+  cursor: none !important;
+}
+
+/* ─── Touch devices: restore default cursor, hide custom cursor ─── */
+@media (hover: none) {
+  * {
+    cursor: auto !important;
+  }
+
+  button, a, [role="button"] {
+    cursor: pointer !important;
+  }
+
+  input, textarea, select {
+    cursor: text !important;
+  }
+
+  .custom-cursor,
+  .custom-cursor-dot,
+  .liquid-light-canvas {
+    display: none !important;
+  }
+}
