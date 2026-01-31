@@ -2,8 +2,9 @@ import { useState, useCallback, useEffect } from "react";
 import { useLanguage } from "../../i18n/LanguageContext";
 import ChatMessages, { type ChatMsg } from "./ChatMessages";
 import ChatInput from "./ChatInput";
-import { sendMessage, getDisplayMessages, initCompanion } from "../../lib/chat";
+import { sendMessage, getDisplayMessages, initCompanion, setWalletAddress } from "../../lib/chat";
 import { speakElevenLabs } from "../../lib/tts";
+import { useWallet } from "../../lib/wallet";
 import type { LipSync } from "../../lib/lipsync";
 import type { Companion } from "../../lib/companions";
 import "../../styles/chatbot.css";
@@ -17,10 +18,16 @@ interface ChatbotOverlayProps {
 
 export default function ChatbotOverlay({ lipSync, open, onToggle, companion }: ChatbotOverlayProps) {
   const { lang, t } = useLanguage();
+  const { address } = useWallet();
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [typing, setTyping] = useState(false);
 
-  // When companion changes, load their conversation history
+  // Sync wallet address into chat module
+  useEffect(() => {
+    setWalletAddress(address);
+  }, [address]);
+
+  // When companion or wallet changes, load their conversation history
   useEffect(() => {
     initCompanion(companion.id);
     const stored = getDisplayMessages();
@@ -32,7 +39,7 @@ export default function ChatbotOverlay({ lipSync, open, onToggle, companion }: C
       const welcome = t(welcomeKey);
       setMessages([{ role: "assistant", content: welcome !== welcomeKey ? welcome : t("chat.welcome") }]);
     }
-  }, [companion.id, lang, t]);
+  }, [companion.id, lang, t, address]);
 
   const handleSend = useCallback(async (text: string) => {
     setMessages((prev) => [...prev, { role: "user", content: text }]);

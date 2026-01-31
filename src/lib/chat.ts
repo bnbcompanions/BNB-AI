@@ -5,8 +5,21 @@ interface ChatMessage {
 
 const STORAGE_PREFIX = "bnbai_chat_";
 
-/** Generate or retrieve a persistent user ID */
+/** Connected wallet address, set externally by WalletContext */
+let _walletAddress: string | null = null;
+
+export function setWalletAddress(addr: string | null): void {
+  const prev = _walletAddress;
+  _walletAddress = addr;
+  // When wallet connects/disconnects, reload history for active companion
+  if (prev !== addr && activeCompanion) {
+    history = loadHistory(activeCompanion);
+  }
+}
+
+/** Generate or retrieve a persistent user ID. Uses wallet address when connected. */
 function getUserId(): string {
+  if (_walletAddress) return _walletAddress.toLowerCase();
   const key = "bnbai_user_id";
   let id = localStorage.getItem(key);
   if (!id) {

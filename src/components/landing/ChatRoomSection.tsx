@@ -4,8 +4,9 @@ import AvatarStage from "../AvatarStage";
 import ChatMessages, { type ChatMsg } from "../chatbot/ChatMessages";
 import ChatInput from "../chatbot/ChatInput";
 import COMPANIONS, { type Companion } from "../../lib/companions";
-import { sendMessage, getDisplayMessages, initCompanion } from "../../lib/chat";
+import { sendMessage, getDisplayMessages, initCompanion, setWalletAddress } from "../../lib/chat";
 import { speakElevenLabs } from "../../lib/tts";
+import { useWallet } from "../../lib/wallet";
 import type { LipSync } from "../../lib/lipsync";
 import type { AvatarController } from "../../lib/avatar";
 import "../../styles/chatbot.css";
@@ -17,6 +18,7 @@ interface ChatRoomSectionProps {
 
 export default function ChatRoomSection({ companion, onCompanionChange }: ChatRoomSectionProps) {
   const { lang, t } = useLanguage();
+  const { address } = useWallet();
   const lipSyncRef = useRef<LipSync | null>(null);
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [typing, setTyping] = useState(false);
@@ -25,7 +27,12 @@ export default function ChatRoomSection({ companion, onCompanionChange }: ChatRo
     lipSyncRef.current = ls;
   }, []);
 
-  // Load conversation when companion changes
+  // Sync wallet address into chat module
+  useEffect(() => {
+    setWalletAddress(address);
+  }, [address]);
+
+  // Load conversation when companion or wallet changes
   useEffect(() => {
     initCompanion(companion.id);
     const stored = getDisplayMessages();
@@ -39,7 +46,7 @@ export default function ChatRoomSection({ companion, onCompanionChange }: ChatRo
         content: welcome !== welcomeKey ? welcome : t("chat.welcome"),
       }]);
     }
-  }, [companion.id, lang, t]);
+  }, [companion.id, lang, t, address]);
 
   const handleSend = useCallback(async (text: string) => {
     setMessages((prev) => [...prev, { role: "user", content: text }]);

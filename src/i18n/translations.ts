@@ -131,6 +131,26 @@ const translations: Record<string, { en: string; zh: string }> = {
 
   // Splash
   "splash.title": { en: "Select Language", zh: "选择语言" },
+
+  // Open Source
+  "nav.opensource": { en: "Open Source", zh: "开源" },
+  "opensource.heading": { en: "Fully Open Source", zh: "完全开源" },
+  "opensource.description": {
+    en: "We believe in transparency and community-driven development. Our entire codebase is publicly available — inspect it, contribute to it, or fork it.",
+    zh: "我们相信透明度和社区驱动的开发。我们的完整代码库公开可见——你可以审查、贡献或分叉。",
+  },
+  "opensource.transparent": { en: "Fully transparent code", zh: "代码完全透明" },
+  "opensource.community": { en: "Community contributions welcome", zh: "欢迎社区贡献" },
+  "opensource.auditable": { en: "Independently auditable", zh: "可独立审计" },
+  "opensource.view_repo": { en: "View Repository", zh: "查看代码仓库" },
+
+  // Wallet
+  "wallet.connect": { en: "Connect Wallet", zh: "连接钱包" },
+  "wallet.connecting": { en: "Connecting...", zh: "连接中..." },
+  "wallet.disconnect": { en: "Disconnect", zh: "断开连接" },
+  "wallet.switch_chain": { en: "Switch Network", zh: "切换网络" },
+  "wallet.no_provider": { en: "Install MetaMask or an EVM wallet", zh: "请安装 MetaMask 或 EVM 钱包" },
+  "wallet.saved_hint": { en: "Chat history saved to wallet", zh: "聊天记录已保存至钱包" },
 };
 
 export default translations;

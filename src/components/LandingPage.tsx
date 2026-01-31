@@ -1,6 +1,7 @@
 import HeroSection from "./landing/HeroSection";
 import ChatRoomSection from "./landing/ChatRoomSection";
 import FeaturesSection from "./landing/FeaturesSection";
+import OpenSourceSection from "./landing/OpenSourceSection";
 import TokenomicsSection from "./landing/TokenomicsSection";
 import RoadmapSection from "./landing/RoadmapSection";
 
@@ -20,6 +21,7 @@ export default function LandingPage({ onChatOpen, companion, onCompanionChange }
       <HeroSection onChatOpen={onChatOpen} companion={companion} />
       <ChatRoomSection companion={companion} onCompanionChange={onCompanionChange} />
       <FeaturesSection />
+      <OpenSourceSection />
       <TokenomicsSection />
       <RoadmapSection />
       <Footer />
