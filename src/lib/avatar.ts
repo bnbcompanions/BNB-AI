@@ -230,7 +230,7 @@ export class AvatarController {
   private detectVRM0(vrm: VRM): boolean {
     // @pixiv/three-vrm sets meta.metaVersion = "0" for VRM 0.x, "1" for VRM 1.0
     // But some versions use different fields. Check multiple signals:
-    const meta = vrm.meta as Record<string, unknown> | undefined;
+    const meta = vrm.meta as unknown as Record<string, unknown> | undefined;
     if (!meta) return true; // assume 0.x if no meta
 
     // VRM 1.0 meta has "authors" (array), VRM 0.x has "author" (string)
